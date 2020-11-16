@@ -16,6 +16,8 @@ public class Main {
         Artist a4 = new Artist("Paradis", Country.FRANCE, Type.BAND);
         Artist a5 = new Artist("Anderson.Paak", Country.USA, Type.SOLO);
 
+        Artist[] artists = {a1, a2, a3, a4, a5};
+
         Song s1 = new Song("Alright", a1, 219, Genre.RAP);
         Song s2 = new Song("Make it Better", a5, 219, Genre.RnB);
         Song s3 = new Song("R.E.M", a2, 245, Genre.POP);
@@ -37,57 +39,35 @@ public class Main {
         Song s19 = new Song("Recto Verso", a4, 383, Genre.HOUSE);
         Song s20 = new Song("Quand Tu Souris", a4, 302, Genre.HOUSE);
 
-        Collection<Song> c = Arrays.asList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20);
+        Song[] songs = {s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20};
+        //Collection<Song> c = Arrays.asList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20);
 
-        ArrayList<Song> songs1 = new ArrayList<>();
-        songs1.add(s1);
-        songs1.add(s6);
-        songs1.add(s7);
-        songs1.add(s8);
 
-        Album al1 = new Album("To Pimp A Butterfly", songs1, 2015);
+        Album al1 = new Album("To Pimp A Butterfly", new ArrayList<Song>(Arrays.asList(s1, s6, s7, s8)), 2015);
+        Album al2 = new Album("Venture", new ArrayList<>(Arrays.asList(s2, s15, s16, s17)), 2019);
+        Album al3 = new Album("sweetener", new ArrayList<>(Arrays.asList(s3, s9, s10, s11)), 2018);
+        Album al4 = new Album("POST HUMAN", new ArrayList<>(Arrays.asList(s4, s12, s13, s14)), 2020);
+        Album al5 = new Album("Recto Verso",new ArrayList<>(Arrays.asList(s5, s18, s19, s20)), 2016);
 
-        ArrayList<Song> songs2 = new ArrayList<>();
-        songs2.add(s2);
-        songs2.add(s15);
-        songs2.add(s16);
-        songs2.add(s17);
+        Album[] albums ={al1, al2, al3, al4, al5};
 
-        Album al2 = new Album("Venture", songs2, 2019);
-
-        ArrayList<Song> songs3 = new ArrayList<>();
-        songs3.add(s3);
-        songs3.add(s9);
-        songs3.add(s10);
-        songs3.add(s11);
-
-        Album al3 = new Album("sweetener", songs3, 2018);
-
-        ArrayList<Song> songs4 = new ArrayList<>();
-        songs4.add(s4);
-        songs4.add(s12);
-        songs4.add(s13);
-        songs4.add(s14);
-
-        Album al4 = new Album("POST HUMAN", songs4, 2020);
-
-        ArrayList<Song> songs5 = new ArrayList<>();
-        songs5.add(s5);
-        songs5.add(s18);
-        songs5.add(s19);
-        songs5.add(s20);
-
-        Album al5 = new Album("Recto Verso", songs5, 2016);
-        ArrayList<Album> p = new ArrayList<>();
-        p.add(al1);
-        p.add(al2);
-        p.add(al3);
-        p.add(al4);
-        p.add(al5);
-        MyPlaylist p1 = new MyPlaylist("Ira", p);
+        MyPlaylist p1 = new MyPlaylist("Ira", new ArrayList<>(Arrays.asList(al1, al2)));
 
         //выбрать песни длиной больше 300 секунд
-        List<Song> longSong = c.stream().filter((x)->x.getTime()>=300).collect(Collectors.toList());
-        System.out.println("longSong = " + longSong);
+        /*List<Song> longSong = c.stream().filter((x) -> x.getTime() >= 300).collect(Collectors.toList());
+        System.out.println("longSong = " + longSong);*/
+
+        Stream<Song> longSong = Arrays.stream(songs);
+        longSong.filter(x->x.getTime()>=300).forEach(System.out::println);
+
+        //все песни Anderson Paak
+        Stream<Song> ap=Arrays.stream(songs);
+        ap.filter(x->x.getName()=="Anderson.Paak").forEach(System.out::println);
+
+        //все песни жанра Pop less than 200 s
+        Stream<Song> pop = Arrays.stream(songs);
+        pop.filter(x->x.getGenre()==Genre.POP).forEach(System.out::println);
+
+        
     }
 }
